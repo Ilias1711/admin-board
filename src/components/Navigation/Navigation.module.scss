@@ -1,0 +1,33 @@
+.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+.link {
+    text-decoration: none;
+    padding: 12px 24px;
+    color: #333;
+    border-radius: 10px;
+    transition: all 0.3s ease
+}
+
+.linkActive {
+    background-color: #3b82f6;
+    color: white;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.link:hover {
+    transform: translateY(-2px);
+    background-color: #f8fafc;
+}
+
+.link:active {
+    background-color: #3b82f6;
+    color: white
+}

@@ -4,9 +4,10 @@ import style from "./EmployeeCard.module.scss";
 interface IEmployeeCardProps {
   employee: IEmployee;
   onDelete: (id: number) => void;
+  onEdit: (employee: IEmployee) => void;
 }
 
-export function EmployeeCard({ employee, onDelete }: IEmployeeCardProps) {
+export function EmployeeCard({ employee, onDelete, onEdit }: IEmployeeCardProps) {
   const handleDelete = () => {
     if (
       window.confirm(
@@ -26,9 +27,10 @@ export function EmployeeCard({ employee, onDelete }: IEmployeeCardProps) {
           {employee.lastName}
         </div>
         <div className={style.employee_details}>
-          {employee.email} • {employee.department}
+          {employee.email} - {employee.department}
         </div>
       </div>
+      <button className={style.employee_button} onClick={() => onEdit(employee)}>Редактировать</button>
       <button className={style.employee_button} onClick={handleDelete}>
         Удалить сотрудника
       </button>

@@ -4,7 +4,24 @@ import { persist } from "zustand/middleware";
 
 const initialState = {
   employees: [],
-  user: null,
+  users: 
+    [
+      {
+        id: 1,
+        username: 'admin',
+        password: 'admin123',
+        name: 'Администратор',
+        role: 'admin' as const
+      },
+      {
+        id: 2,
+        username: 'manager',
+        password: 'manager123',
+        name: 'Менеджер',
+        role: 'manager' as const
+      }
+    ],
+    currentUser: null,
 };
 
 export const useEmployeeStore = create<IAppStore>()(
@@ -14,6 +31,7 @@ export const useEmployeeStore = create<IAppStore>()(
 
       addEmployee: (employeeData) =>
         set((state) => ({
+          ...state,
           employees: [
             ...state.employees,
             {
@@ -28,19 +46,44 @@ export const useEmployeeStore = create<IAppStore>()(
 
       deleteEmployee: (id: number) =>
         set((state) => ({
+          ...state,
           employees: state.employees.filter((emp) => emp.id !== id),
         })),
 
-      login: (userData) => set({ user: userData }),
-      logout: () => set({ user: null }),
+      login: (username: string, userPassword: string) => {
+        set((state) => {
+          const foundUser = state.users.find(
+            user => user.username === username && user.password === userPassword
+          );
+      
+          if (foundUser) {
+            console.log(username, userPassword)
+            return {
+              ...state,
+              currentUser: {
+                id: foundUser.id,
+                username: foundUser.username,
+                name: foundUser.name,
+                role: foundUser.role,
+                loginTime: new Date().toISOString()
+              }
+            };
+          }
+      
+          return {
+            ...state,
+            currentUser: null
+          };
+        });
+      },
+      
+      logout: () => set((state) => ({
+        ...state, 
+        currentUser: null
+      })),
     }),
     {
-      name: "app-storage", // уникальное имя для localStorage
-      // Опционально можно настроить:
-      // partialize: (state) => ({
-      //   employees: state.employees,
-      //   currentUser: state.currentUser
-      // }),
+      name: "app-storage",
     }
   )
 );

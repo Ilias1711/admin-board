@@ -10,10 +10,19 @@ export interface IEmployee {
   isActive: boolean;
 }
 
-export interface IUser {
+export interface IAuthUser {
   id: number;
   name: string;
-  rore: "admin" | "manager";
+  role: "admin" | "manager";
+  username: string;
+  password: string;
+}
+
+export interface ICurrentUser {
+  id: number;
+  username: string;
+  name: string;
+  role: 'admin' | 'manager';
   loginTime: string;
 }
 
@@ -27,16 +36,17 @@ export interface ISystem {
 
 export interface IAppActions {
   addEmployee: (
-    employees: Omit<IEmployee, "id" | "createdAt" | "syslems" | "isActive">
+    employees: Omit<IEmployee, "id" | "createdAt" | "systems" | "isActive">
   ) => void;
   deleteEmployee: (id: number) => void;
-  login: (userData: IUser) => void;
+  login: (userName: string, userPassword: string) => void;
   logout: () => void;
 }
 
 export interface IAppState {
   employees: IEmployee[];
-  user: IUser | null;
+  users: IAuthUser[]
+  currentUser: ICurrentUser | null;
 }
 
 export type IAppStore = IAppState & IAppActions;

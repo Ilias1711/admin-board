@@ -1,0 +1,33 @@
+.container {
+  margin: 20px 0;
+  max-width: 1200px; /* ограничиваем ширину */
+  margin: 0 auto; /* центрируем контейнер */
+  padding: 0 20px; /* отступы по бокам */
+}
+
+.employee_title {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+  text-align: center; /* центрируем заголовок */
+}
+
+.emptyState {
+  padding: 40px;
+  text-align: center;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  margin: 20px 0;
+  color: #666;
+  background-color: #f9f9f9;
+  max-width: 600px; /* ограничиваем ширину */
+  margin: 20px auto; /* центрируем */
+}
+
+.employee_list {
+  display: flex;
+  flex-direction: column; /* вертикальное расположение */
+  gap: 15px; /* расстояние между карточками */
+  max-width: 800px; /* ограничиваем ширину списка */
+  margin: 0 auto; /* центрируем список */
+}

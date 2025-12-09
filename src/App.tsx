@@ -1,27 +1,28 @@
-import { CreateEmployeeForm } from "./components/CreateEmployee/CreateEmployeeForm";
-import { EmployeeCard } from "./components/EmployeeCard/EmployeeCard";
-import { useEmployeeStore } from "./store/useEmployeesStore";
-
-const employee = {
-  id: 1,
-  lastName: "Ilias",
-  firstName: "Kaiumov",
-  email: "fatyh@example.com",
-  department: "IT",
-  isActive: true,
-};
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AddEmployeePage } from "./pages/AddEmployeePage/AddEmployeePage";
+import { LoginPage } from "./pages/LoginPage/LoginPage";
+import { useEmployeeStore } from "./store/useEmployeesStore"; 
+import { EmployeesPage } from "./pages/EmployeesPage/EmployeesPage";
 
 function App() {
-  // ✅ Правильное использование - без вызова как функции
-  const deleteEmployee = useEmployeeStore((state) => state.deleteEmployee);
-
+  const user = useEmployeeStore((state) => state.currentUser)
+  // const user = true
   return (
     <>
-      <CreateEmployeeForm />
-      <EmployeeCard
-        employee={employee}
-        onDelete={() => deleteEmployee(employee.id)}
-      />
+      <BrowserRouter>
+        <Routes>
+          {!user ? (
+            <Route path="*" element={<LoginPage />} />
+          ) : (
+            <>
+              <Route path="/" element={<Navigate to='add-employee' replace/>}/>
+              <Route path="add-employee" element={<AddEmployeePage />}/>
+              <Route path="employees" element={<EmployeesPage />}/>
+              <Route path="*" element={<Navigate to="/add-employee" replace />}/>
+            </>
+          )}
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
