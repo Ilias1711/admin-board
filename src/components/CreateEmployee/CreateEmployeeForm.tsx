@@ -45,7 +45,7 @@ export function CreateEmployeeForm() {
       firstName: form.firstName.length >= 2 ? "" : "Слишком короткое имя",
       lastName: form.lastName.length >= 2 ? "" : "Слишком короткая фамилия",
       email: form.email.includes("@") ? "" : "Введите корректную почту",
-      department: form.department ? "" : "Выберите отдел", // Добавлена валидация отдела
+      department: form.department ? "" : "Выберите отдел",
     };
     setError(newError);
     return !Object.values(newError).some(Boolean);
