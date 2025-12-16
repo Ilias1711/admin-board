@@ -2,7 +2,7 @@ import { useState } from "react";
 import { type IEmployee } from "../../types";
 import { useEmployeeStore } from "../../store/useEmployeesStore";
 import styles from "./CreateEmployee.module.scss";
-// import {style} from './CreateEmployee.module.scss'
+import toast from "react-hot-toast";
 
 type EmployeForm = Omit<
   IEmployee,
@@ -28,16 +28,31 @@ export function CreateEmployeeForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      addEmployee(form);
-      setForm({
-        firstName: "",
-        lastName: "",
-        email: "",
-        department: "",
-      });
-      console.log("Форма отправлена:", form);
+
+    try {
+      if (validate()) {
+        addEmployee(form);
+        setForm({
+          firstName: "",
+          lastName: "",
+          email: "",
+          department: "",
+        });
+        toast.success("Сотрудник успешно добавлен");
+      }
+    } catch (error) {
+      toast.error(`${error} ошибка`);
     }
+    // if (validate()) {
+    //   addEmployee(form);
+    //   setForm({
+    //     firstName: "",
+    //     lastName: "",
+    //     email: "",
+    //     department: "",
+    //   });
+    //   console.log("Форма отправлена:", form);
+    // }
   };
 
   const validate = () => {

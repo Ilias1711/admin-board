@@ -22,7 +22,7 @@ export interface ICurrentUser {
   id: number;
   username: string;
   name: string;
-  role: 'admin' | 'manager';
+  role: "admin" | "manager";
   loginTime: string;
 }
 
@@ -41,11 +41,12 @@ export interface IAppActions {
   deleteEmployee: (id: number) => void;
   login: (userName: string, userPassword: string) => void;
   logout: () => void;
+  updateEmployee: (id: number, updateData: Partial<IEmployee>) => void;
 }
 
 export interface IAppState {
   employees: IEmployee[];
-  users: IAuthUser[]
+  users: IAuthUser[];
   currentUser: ICurrentUser | null;
 }
 

@@ -1,27 +1,26 @@
 import { create } from "zustand";
-import { type IAppStore } from "../types";
+import { type IAppStore, type IEmployee } from "../types";
 import { persist } from "zustand/middleware";
 
 const initialState = {
   employees: [],
-  users: 
-    [
-      {
-        id: 1,
-        username: 'admin',
-        password: 'admin123',
-        name: 'Администратор',
-        role: 'admin' as const
-      },
-      {
-        id: 2,
-        username: 'manager',
-        password: 'manager123',
-        name: 'Менеджер',
-        role: 'manager' as const
-      }
-    ],
-    currentUser: null,
+  users: [
+    {
+      id: 1,
+      username: "admin",
+      password: "admin123",
+      name: "Администратор",
+      role: "admin" as const,
+    },
+    {
+      id: 2,
+      username: "manager",
+      password: "manager123",
+      name: "Менеджер",
+      role: "manager" as const,
+    },
+  ],
+  currentUser: null,
 };
 
 export const useEmployeeStore = create<IAppStore>()(
@@ -50,14 +49,23 @@ export const useEmployeeStore = create<IAppStore>()(
           employees: state.employees.filter((emp) => emp.id !== id),
         })),
 
+      updateEmployee: (id: number, updateData: Partial<IEmployee>) =>
+        set((state) => ({
+          ...state,
+          employees: state.employees.map((emp) =>
+            emp.id === id ? { ...emp, ...updateData } : emp
+          ),
+        })),
+
       login: (username: string, userPassword: string) => {
         set((state) => {
           const foundUser = state.users.find(
-            user => user.username === username && user.password === userPassword
+            (user) =>
+              user.username === username && user.password === userPassword
           );
-      
+
           if (foundUser) {
-            console.log(username, userPassword)
+            console.log(username, userPassword);
             return {
               ...state,
               currentUser: {
@@ -65,22 +73,23 @@ export const useEmployeeStore = create<IAppStore>()(
                 username: foundUser.username,
                 name: foundUser.name,
                 role: foundUser.role,
-                loginTime: new Date().toISOString()
-              }
+                loginTime: new Date().toISOString(),
+              },
             };
           }
-      
+
           return {
             ...state,
-            currentUser: null
+            currentUser: null,
           };
         });
       },
-      
-      logout: () => set((state) => ({
-        ...state, 
-        currentUser: null
-      })),
+
+      logout: () =>
+        set((state) => ({
+          ...state,
+          currentUser: null,
+        })),
     }),
     {
       name: "app-storage",
